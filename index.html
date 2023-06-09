@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>羁旅行</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="羁旅行.css">
+    <link rel="stylesheet" href="meitichaxun.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+      <div class="header_wrap">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-4 col-sm-8">
+                <p>羁旅行</p>
+            </div>
+            <div class="col-md-6 ">
+                <div class="menu">
+                  <ul class="clearfix">
+                    <li><a href="#" onclick="switchFrame(0)" >首页</a></li>
+                    <li><a href="#" onclick="switchFrame(1)">成为旅人</a></li>
+                    <li><a href="#" onclick="switchFrame(2)">游记篇</a></li>
+                    <li><a href="#" onclick="switchFrame(3)">美食篇</a></li>
+                    <li><a href="#" onclick="switchFrame(4)">足迹篇</a></li>
+                    <li><a href="#" onclick="switchFrame(5)">留言板</a></li>
+                  </ul>
+                </div>
+                <div class="daoh" >
+                    <img src="img/导航.png" width="50" height="50">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="tidate" >
+                   <h3>0000</h3>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="main_wrap">
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col-md-12">
+                      <div class="min_page">
+                          <a id="mybtn" onclick="topFunction()" style="display: none">
+                              <img src="img/箭头上.png" width="50px" height="50px" >
+                          </a>
+
+                          <iframe src="homepage.html" width="100%" onload="resizeIframe(this)" frameborder="0" scrolling="no" ></iframe>
+                          <iframe src="traveller.html" width="100%" onload="resizeIframe(this)" frameborder="0" scrolling="no" ></iframe>
+                          <iframe src="travel_notes.html" width="100%" onload="resizeIframe(this)" frameborder="0" scrolling="no"></iframe>
+                          <iframe src="fine_food.html" width="100%" onload="resizeIframe(this)" frameborder="0" scrolling="no" ></iframe>
+                          <iframe src="footprint.html" width="100%" onload="resizeIframe(this)" frameborder="0" scrolling="no" ></iframe>
+                          <iframe src="message_board.html" width="100%" onload="resizeIframe(this)" frameborder="0" scrolling="no"></iframe>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="frooter_wrap" onload="switchFrame(0)">
+          <footer> <p>版权所有 © 2023 Xiao shun yi</p>
+              <p>联系地址：湖南省浏阳市永安镇督正路I号长沙轨道交通职业学院</p>
+              <p>电话：13657359972 | 电子邮件：3265832351@qq.com</p>
+          </footer>
+
+      </div>
+
+</body>
+</html>
+<script>
+    window.onload = function() { /*除了第一个iframe其他都隐藏*/
+        setTimeout(function() {
+            switchFrame(0)
+        }, 10);
+    }
+
+   function resizeIframe(obj) {
+       obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';/* 获取当前网页的高度并设置为Iframe的高度*/
+   }
+
+    function switchFrame(index) {
+        // 获取所有 iframe 元素
+        var iframes = document.getElementsByTagName("iframe");
+
+        // 隐藏所有 iframe 元素
+        for (var i = 0; i < iframes.length; i++) {
+            iframes[i].style.display = "none";
+        }
+
+        // 显示指定的 iframe 元素
+        iframes[index].style.display = "block";
+    }
+
+    // 时钟
+    setInterval(date,1000);
+    function date() {
+        let time = new Date()
+        let date=time.toLocaleString()
+        $(".header_wrap .tidate h3").text(date);
+    }
+
+    // 当页面滚动时，显示或隐藏按钮
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+           $("#mybtn").show();
+        } else {
+            $("#mybtn").hide();
+        }
+    }
+
+    // 当用户点击按钮时，滚动回到页面顶部
+    function topFunction() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+
+        });
+    }
+
+    function debounce(func, wait) {
+        let timeout;
+        return function() {
+            const context = this;
+            const args = arguments;
+            clearTimeout(timeout);
+            timeout = setTimeout(function() {
+                func.apply(context, args);
+            }, wait);
+        };
+    }
+
+    function doSomething() {        /*无论我们怎么拖动窗口大小，只执行一次获取浏览器宽高的方法*/
+        run();
+    }
+    const debouncedDoSomething = debounce(doSomething, 1000);
+        window.addEventListener('resize', debouncedDoSomething);  /*窗口变化时执行*/
+
+
+        run(); /*加载完初始执行一次*/
+        function run() {
+        if (window.innerWidth < 768) {   // 在小于768像素的屏幕上执行
+
+                $(".header_wrap .menu ul li").css({
+                    "float": "none",
+                });
+                $(".header_wrap .menu ul li a").css({
+                    'color': '#000'
+                });
+                $(".header_wrap .menu ul li a").hover(function () {
+                    $(this).css({
+                        'border-bottom': '5px solid #ff0000',
+                        'color': '#39b0ac',
+                        'background-color': '#fff'
+                    });
+                }, function () {
+                    $(this).css({
+                        'border': 'none',
+                        'color': '#000',
+                    });
+                })
+                $(".header_wrap .menu ul").css({
+                    "float": "right"
+                });
+                $(".header_wrap .menu").css({
+                    'top': '80px',
+                    'right': '-380px',
+                    'width': '391px',
+                    'height': '481px',
+                    'background-color': '#ffffff',
+                    'z-index': ' 9999'
+                })
+
+                $(".header_wrap .daoh").click(function () {
+                    var right = Math.floor($(".header_wrap .menu").offset().left + $(".header_wrap .menu").outerWidth()); /*获取menu的right*/
+                    if (right == 785) {
+                        $(".header_wrap .menu").animate({
+                            'right': '15px'
+                        })
+                    } else {
+                        $(".header_wrap .menu").animate({
+                            'right': '-380px'
+                        })
+                    }
+                })
+                $(".header_wrap .menu ul li a").click(function () { /*a标签被点击后导航收回*/
+                    $(".header_wrap .menu").animate({
+                        'right': '-372px'
+                    })
+                })
+
+        }   // 在小于768像素的屏幕上执行
+        }
+
+
+
+
+</script>
